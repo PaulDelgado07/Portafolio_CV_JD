@@ -1,8 +1,16 @@
+import { useEffect, useState } from 'react'
 import './App.css'
+
+const NAV_SECTIONS = ['inicio', 'servicios', 'experiencia', 'certificaciones', 'contacto']
 
 // TODO: coloca tu foto en src/assets (por ejemplo "perfil.jpg"), impórtala aquí
 // y pásala como prop `src` a <HeroImage /> más abajo para reemplazar el espacio reservado.
 // import perfilImg from './assets/perfil.jpg'
+
+// TODO: si quieres, coloca aquí un logo/insignia (CENCAPIT, Agusegpro, etc.)
+// en src/assets e impórtalo para pasarlo como prop `src` a <CertBadge />.
+// Evita subir el escaneo del carnet: trae cédula, tipo de sangre, QR y holograma legibles.
+// import certBadge from './assets/cert-badge.png'
 
 // TODO: reemplaza este enlace por el link real de descarga de tu currículum (PDF).
 const CV_URL = '#'
@@ -95,6 +103,22 @@ function MailIcon() {
   )
 }
 
+function MenuIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function CloseIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M6 6l12 12M18 6 6 18" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 function HeroImage({ src }) {
   return (
     <div className="hero-image-wrap">
@@ -111,19 +135,68 @@ function HeroImage({ src }) {
   )
 }
 
+function CertBadge({ src }) {
+  return (
+    <div className="cert-badge-wrap">
+      {src ? (
+        <img src={src} alt="Insignia de certificación" />
+      ) : (
+        <div className="cert-badge-placeholder">
+          <ShieldCheckIcon />
+          Coloca aquí tu logo o insignia
+          <br />
+          (src/assets → prop `src` de CertBadge)
+        </div>
+      )}
+    </div>
+  )
+}
+
 function App() {
+  const [activeSection, setActiveSection] = useState('inicio')
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    const sections = NAV_SECTIONS
+      .map((id) => document.getElementById(id))
+      .filter(Boolean)
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (visible) setActiveSection(visible.target.id)
+      },
+      { rootMargin: '-72px 0px -60% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
+    )
+
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <>
       <header className="navbar">
         <div className="container">
           <span className="logo">Jorge Eduardo Delgado Rodríguez</span>
-          <ul className="nav-links">
-            <li><a href="#inicio" className="active">Inicio</a></li>
-            <li><a href="#experiencia">Experiencia</a></li>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#contacto">Contacto</a></li>
+          <ul className={menuOpen ? 'nav-links open' : 'nav-links'}>
+            <li><a href="#inicio" className={activeSection === 'inicio' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Inicio</a></li>
+            <li><a href="#servicios" className={activeSection === 'servicios' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Servicios</a></li>
+            <li><a href="#experiencia" className={activeSection === 'experiencia' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Experiencia</a></li>
+            <li><a href="#certificaciones" className={activeSection === 'certificaciones' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Certificaciones</a></li>
+            <li><a href="#contacto" className={activeSection === 'contacto' ? 'active' : ''} onClick={() => setMenuOpen(false)}>Contacto</a></li>
           </ul>
           <a href="#contacto" className="btn btn-primary">Solicitar Cotización</a>
+          <button
+            type="button"
+            className="nav-toggle"
+            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? <CloseIcon /> : <MenuIcon />}
+          </button>
         </div>
       </header>
 
@@ -151,7 +224,7 @@ function App() {
         </div>
       </section>
 
-      <section className="about-section">
+      <section id="servicios" className="about-section">
         <div className="container">
           <div className="about-copy">
             <h2 className="section-title">Sobre Mí</h2>
@@ -193,7 +266,7 @@ function App() {
           <div className="achievements-grid">
             <div className="stat-card dark">
               <div className="stat-icon"><MedalIcon /></div>
-              <div className="stat-value">12+</div>
+              <div className="stat-value">3+</div>
               <div className="stat-label">AÑOS DE SERVICIO</div>
               <p className="stat-desc">
                 Experiencia comprobada en entornos corporativos de alta exigencia.
@@ -229,6 +302,11 @@ function App() {
             <div className="trajectory-col">
               <h3 className="col-heading">Experiencia Laboral</h3>
               <ul className="timeline">
+                <li>
+                  <span className="timeline-period">2025 – Actualidad</span>
+                  <h4>Agente de Seguridad — Agusegpro Cía. Ltda.</h4>
+                  <p>Vigilancia y protección de instalaciones bajo modalidad fija, con certificación Nivel 1 avalada por el Ministerio del Interior.</p>
+                </li>
                 <li>
                   <span className="timeline-period">Ago – Oct 2024</span>
                   <h4>Cajero — Transferunion / Western Union</h4>
@@ -290,6 +368,26 @@ function App() {
                   <h4>Capacitación en Habilidades Productivas</h4>
                   <p>GAD Parroquial Rural Posorja</p>
                 </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="certificaciones" className="certifications-section">
+        <div className="container">
+          <h2 className="section-title">Certificaciones</h2>
+          <div className="section-underline" />
+          <div className="certifications-grid">
+            <CertBadge />
+            <div className="cert-card">
+              <h3>Agente de Seguridad Certificado</h3>
+              <p className="cert-issuer">Ministerio del Interior — CENCAPIT Cía. Ltda. (Centro de Capacitación Integral)</p>
+              <ul className="cert-details">
+                <li><strong>Acuerdo Ministerial:</strong> N.º 2262</li>
+                <li><strong>Nivel:</strong> 1 — Modalidad Fija</li>
+                <li><strong>Empresa:</strong> Agusegpro Cía. Ltda. — Seguridad &amp; Protección</li>
+                <li><strong>Vigencia:</strong> 17/06/2025 – 11/07/2027</li>
               </ul>
             </div>
           </div>
