@@ -288,7 +288,7 @@ function App() {
             </div>
             <div className="stat-card">
               <div className="stat-icon"><GraduationIcon /></div>
-              <div className="stat-value">Nivel 4</div>
+              <div className="stat-value">Nivel 1</div>
               <div className="stat-label">CERTIFICACIÓN TÁCTICA</div>
               <p className="stat-desc">
                 Acreditación avanzada en primeros auxilios, control de masas y
