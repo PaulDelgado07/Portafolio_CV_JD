@@ -152,6 +152,14 @@ function CertBadge({ src }) {
 function App() {
   const [activeSection, setActiveSection] = useState('inicio')
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     const sections = NAV_SECTIONS
@@ -174,7 +182,7 @@ function App() {
 
   return (
     <>
-      <header className="navbar">
+      <header className={scrolled ? 'navbar scrolled' : 'navbar'}>
         <div className="container">
           <span className="logo">Jorge Eduardo Delgado Rodríguez</span>
           <ul className={menuOpen ? 'nav-links open' : 'nav-links'}>

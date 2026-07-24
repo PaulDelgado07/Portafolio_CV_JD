@@ -7,11 +7,20 @@
 
 /* NAV */
 .navbar {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid transparent;
   background: var(--bg);
   position: sticky;
   top: 0;
   z-index: 10;
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.navbar.scrolled {
+  background: rgba(247, 246, 241, 0.7);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-bottom-color: var(--border);
+  box-shadow: 0 8px 30px -12px rgba(18, 24, 42, 0.15);
 }
 
 .navbar .container {
