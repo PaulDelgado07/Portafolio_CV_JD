@@ -500,9 +500,9 @@
 }
 
 .cert-badge-wrap {
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cert-badge-wrap img {
@@ -510,7 +510,6 @@
   height: 100%;
   object-fit: contain;
   display: block;
-  background: #fff;
 }
 
 .cert-badge-placeholder {

@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import agusegproLogo from './assets/logo_agusepro.png'
+import foto_jorge from './assets/foto_jorge.jpeg'
 
 const NAV_SECTIONS = ['inicio', 'servicios', 'experiencia', 'certificaciones', 'contacto']
 
 // TODO: coloca tu foto en src/assets (por ejemplo "perfil.jpg"), impórtala aquí
 // y pásala como prop `src` a <HeroImage /> más abajo para reemplazar el espacio reservado.
 // import perfilImg from './assets/perfil.jpg'
-
-// TODO: si quieres, coloca aquí un logo/insignia (CENCAPIT, Agusegpro, etc.)
-// en src/assets e impórtalo para pasarlo como prop `src` a <CertBadge />.
-// Evita subir el escaneo del carnet: trae cédula, tipo de sangre, QR y holograma legibles.
-// import certBadge from './assets/cert-badge.png'
 
 // TODO: reemplaza este enlace por el link real de descarga de tu currículum (PDF).
 const CV_URL = '#'
@@ -220,7 +217,7 @@ function App() {
               <a href="#servicios" className="btn btn-outline">Conocer Servicios</a>
             </div>
           </div>
-          <HeroImage />
+          <HeroImage src={foto_jorge} />
         </div>
       </section>
 
@@ -379,7 +376,7 @@ function App() {
           <h2 className="section-title">Certificaciones</h2>
           <div className="section-underline" />
           <div className="certifications-grid">
-            <CertBadge />
+            <CertBadge src={agusegproLogo} />
             <div className="cert-card">
               <h3>Agente de Seguridad Certificado</h3>
               <p className="cert-issuer">Ministerio del Interior — CENCAPIT Cía. Ltda. (Centro de Capacitación Integral)</p>
@@ -405,11 +402,7 @@ function App() {
             </div>
             <div className="contact-item">
               <span className="contact-icon"><PhoneIcon /></span>
-              <a href="tel:+593981288209">098 128 8209</a>
-            </div>
-            <div className="contact-item">
-              <span className="contact-icon"><PhoneIcon /></span>
-              <a href="tel:+59346600706">04 600 706</a>
+              <a href="tel:+593997323119">0997323119</a>
             </div>
             <div className="contact-item">
               <span className="contact-icon"><MailIcon /></span>
